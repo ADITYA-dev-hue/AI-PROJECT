@@ -1,855 +1,674 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduPrep Assistant</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-        }
 
-        body {
-            background-color: #f0f4f8;
-            color: #2d3748;
-            height: 100vh;
-            overflow: hidden;
-        }
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg0:#0d0f14;
+--bg1:#13161e;
+--bg2:#1a1e28;
+--bg3:#222736;
+--bg4:#2a3045;
+--bdr:rgba(255,255,255,0.07);
+--bdr2:rgba(255,255,255,0.13);
+--bdr3:rgba(255,255,255,0.2);
+--t1:#f0f2ff;
+--t2:#8b91a8;
+--t3:#4a5068;
+--acc:#4f7ef8;
+--acc2:#6b95ff;
+--acc-bg:rgba(79,126,248,0.12);
+--acc-bdr:rgba(79,126,248,0.35);
+--teal:#2dd4bf;
+--teal-bg:rgba(45,212,191,0.1);
+--teal-bdr:rgba(45,212,191,0.3);
+--purp:#a78bfa;
+--purp-bg:rgba(167,139,250,0.1);
+--purp-bdr:rgba(167,139,250,0.3);
+--green:#4ade80;
+--sh1:0 1px 3px rgba(0,0,0,0.5);
+--sh2:0 4px 12px rgba(0,0,0,0.6);
+--sh3:0 8px 24px rgba(0,0,0,0.7);
+--sh-blue:0 0 0 1px var(--acc-bdr),0 4px 20px rgba(79,126,248,0.15);
+}
+body{font-family:'Segoe UI',system-ui,Arial,sans-serif;background:var(--bg0);color:var(--t1)}
 
-        /* Full-page sections */
-        .full-page {
-            width: 100%;
-            height: 100vh;
-            position: absolute;
-            top: 0;
-            left: 0;
-            transition: transform 0.5s ease;
-        }
+#root{width:100%;min-height:700px;position:relative;overflow:hidden;background:var(--bg0)}
 
-        /* Front Page */
-        #front-page {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-            z-index: 10;
-        }
+/* ===== INTRO ===== */
+#intro{width:100%;min-height:700px;display:flex;flex-direction:column;background:var(--bg0);transition:transform .55s cubic-bezier(.77,0,.175,1),opacity .4s}
+#intro.out{transform:translateX(-110%);opacity:0;pointer-events:none}
 
-        .hero-content {
-            max-width: 800px;
-        }
+.i-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 36px;
+  background:var(--bg1);
+  border-bottom:1px solid var(--bdr);
+}
+.i-brand{display:flex;align-items:center;gap:10px}
+.i-bicon{
+  width:36px;height:36px;border-radius:9px;
+  background:linear-gradient(135deg,var(--acc),#6b95ff);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(79,126,248,0.4);
+}
+.i-bicon svg{width:18px;height:18px}
+.i-bname{font-size:16px;font-weight:800;color:var(--t1);letter-spacing:-.3px}
+.i-bsub{font-size:10px;color:var(--t3);letter-spacing:.5px;text-transform:uppercase;margin-top:1px}
+.nav-pills{display:flex;gap:6px}
+.nav-pill{
+  padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  color:var(--t2);background:var(--bg3);border:1px solid var(--bdr);cursor:default;
+}
+.nav-pill.act{background:var(--acc-bg);color:var(--acc2);border-color:var(--acc-bdr)}
 
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            color: #2c3e50;
-        }
+.i-hero{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 36px 24px;gap:48px}
 
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: #34495e;
-        }
+.i-left{flex:0 0 420px}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--acc-bg);border:1px solid var(--acc-bdr);
+  color:var(--acc2);font-size:11px;font-weight:700;letter-spacing:.6px;
+  padding:5px 13px;border-radius:20px;margin-bottom:22px;text-transform:uppercase;
+}
+.dot-live{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green)}
+.hero-h1{font-size:36px;font-weight:900;color:var(--t1);line-height:1.15;margin-bottom:16px;letter-spacing:-.8px}
+.hero-h1 em{font-style:normal;background:linear-gradient(90deg,var(--acc2),var(--purp));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-p{font-size:13.5px;color:var(--t2);line-height:1.75;margin-bottom:28px;max-width:380px}
+.cta-row{display:flex;gap:10px;align-items:center;margin-bottom:24px}
+.btn-p{
+  padding:12px 26px;background:var(--acc);color:#fff;
+  border:none;border-radius:10px;font-size:13.5px;font-weight:700;
+  cursor:pointer;letter-spacing:.1px;
+  box-shadow:0 4px 16px rgba(79,126,248,0.45);
+  border-bottom:2px solid rgba(0,0,0,0.3);
+  transition:transform .15s,box-shadow .15s;
+}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(79,126,248,0.55)}
+.btn-p:active{transform:translateY(0);box-shadow:none}
+.btn-g{
+  padding:12px 20px;background:var(--bg3);color:var(--t2);
+  border:1px solid var(--bdr2);border-radius:10px;font-size:13px;font-weight:600;
+  cursor:pointer;transition:transform .15s,color .15s;
+}
+.btn-g:hover{transform:translateY(-1px);color:var(--t1);border-color:var(--bdr3)}
+.creator{font-size:11px;color:var(--t3);border-top:1px solid var(--bdr);padding-top:14px}
+.creator span{color:var(--t2);font-weight:600}
 
-        .creators-info {
-            background-color: rgba(255,255,255,0.8);
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-            font-size: 0.9rem;
-        }
+/* 3D CARDS */
+.i-right{flex:0 0 340px;display:flex;flex-direction:column;gap:12px}
+.box3d{
+  background:var(--bg2);
+  border:1px solid var(--bdr);
+  border-radius:14px;
+  padding:18px 20px;
+  position:relative;
+  cursor:default;
+  border-right:3px solid var(--bdr2);
+  border-bottom:3px solid var(--bdr2);
+  transform:perspective(700px) rotateX(3deg) rotateY(-3deg);
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s,border-color .3s;
+  box-shadow:var(--sh2);
+}
+.box3d:hover{
+  transform:perspective(700px) rotateX(0deg) rotateY(0deg) translateY(-4px);
+  box-shadow:var(--sh3);
+  border-color:var(--bdr2);
+}
+.box3d.blue:hover{border-color:var(--acc-bdr);box-shadow:var(--sh-blue)}
+.box3d.teal:hover{border-color:var(--teal-bdr);box-shadow:0 0 0 1px var(--teal-bdr),0 4px 20px rgba(45,212,191,0.15)}
+.box3d.purp:hover{border-color:var(--purp-bdr);box-shadow:0 0 0 1px var(--purp-bdr),0 4px 20px rgba(167,139,250,0.15)}
+.b3-tag{
+  position:absolute;top:14px;right:14px;
+  font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;
+  padding:3px 9px;border-radius:10px;border:1px solid;
+}
+.b3-tag.blue{background:var(--acc-bg);color:var(--acc2);border-color:var(--acc-bdr)}
+.b3-tag.teal{background:var(--teal-bg);color:var(--teal);border-color:var(--teal-bdr)}
+.b3-tag.purp{background:var(--purp-bg);color:var(--purp);border-color:var(--purp-bdr)}
+.b3-row{display:flex;gap:13px;align-items:flex-start;margin-bottom:12px}
+.b3-ico{
+  width:40px;height:40px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:18px;
+  border:1px solid var(--bdr);
+}
+.b3-ico.blue{background:var(--acc-bg)}
+.b3-ico.teal{background:var(--teal-bg)}
+.b3-ico.purp{background:var(--purp-bg)}
+.b3-title{font-size:13.5px;font-weight:700;color:var(--t1);margin-bottom:3px}
+.b3-desc{font-size:11.5px;color:var(--t2);line-height:1.55}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.ch{padding:3px 9px;border-radius:8px;font-size:10px;font-weight:700;border:1px solid}
+.ch.blue{background:var(--acc-bg);color:var(--acc2);border-color:var(--acc-bdr)}
+.ch.teal{background:var(--teal-bg);color:var(--teal);border-color:var(--teal-bdr)}
+.ch.purp{background:var(--purp-bg);color:var(--purp);border-color:var(--purp-bdr)}
 
-        .creators-info strong {
-            display: block;
-            margin-bottom: 0.5rem;
-        }
+.i-foot{
+  display:flex;align-items:center;gap:0;
+  background:var(--bg1);border-top:1px solid var(--bdr);
+  padding:14px 36px;
+}
+.stat{text-align:center;padding:0 20px}
+.stat-n{font-size:20px;font-weight:900;color:var(--acc2)}
+.stat-l{font-size:10px;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
+.sdiv{width:1px;height:30px;background:var(--bdr)}
+.i-foot-cta{margin-left:auto}
 
-        .btn {
-            display: inline-block;
-            background-color: #4299e1;
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+/* ===== CHAT ===== */
+#chat{
+  width:100%;height:700px;display:flex;flex-direction:column;
+  background:var(--bg0);
+  position:absolute;top:0;left:0;
+  transform:translateX(110%);opacity:0;
+  transition:transform .55s cubic-bezier(.77,0,.175,1),opacity .4s;
+}
+#chat.in{transform:translateX(0);opacity:1}
 
-        .btn:hover {
-            background-color: #3182ce;
-            transform: translateY(-2px);
-        }
+.c-layout{flex:1;display:flex;overflow:hidden;min-height:0}
 
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-            width: 100%;
-            max-width: 1000px;
-        }
+/* Sidebar */
+.sbar{
+  width:230px;flex-shrink:0;
+  background:var(--bg1);
+  border-right:1px solid var(--bdr);
+  display:flex;flex-direction:column;
+}
+.sbar-head{padding:14px;border-bottom:1px solid var(--bdr)}
+.sbar-logo{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+.s-ico{
+  width:30px;height:30px;border-radius:8px;
+  background:linear-gradient(135deg,var(--acc),#6b95ff);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 6px rgba(79,126,248,0.35);
+}
+.s-ico svg{width:16px;height:16px}
+.s-name{font-size:13px;font-weight:800;color:var(--t1)}
+.back-btn{
+  display:flex;align-items:center;gap:6px;width:100%;
+  padding:7px 10px;background:var(--bg3);border:1px solid var(--bdr);
+  border-radius:8px;font-size:11px;font-weight:600;color:var(--t2);
+  cursor:pointer;transition:color .15s,border-color .15s,transform .1s;
+  box-shadow:var(--sh1);
+}
+.back-btn:hover{color:var(--t1);border-color:var(--bdr2);transform:translateX(-1px)}
+.back-btn svg{width:11px;height:11px}
 
-        .feature-card {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
+.sbar-tools{padding:10px 12px;border-bottom:1px solid var(--bdr)}
+.s-sec{font-size:9px;font-weight:800;color:var(--t3);letter-spacing:.9px;text-transform:uppercase;margin-bottom:7px}
+.tcard{
+  background:var(--bg2);border:1px solid var(--bdr);border-radius:10px;
+  padding:9px 11px;margin-bottom:7px;cursor:pointer;
+  border-right:2px solid var(--bdr2);border-bottom:2px solid var(--bdr2);
+  transition:transform .15s,border-color .15s;
+}
+.tcard:hover{transform:translateY(-1px)}
+.tcard.open{border-color:var(--acc-bdr);background:rgba(79,126,248,0.05)}
+.tc-h{display:flex;align-items:center;gap:7px}
+.tc-i{width:22px;height:22px;border-radius:5px;background:var(--bg3);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:12px}
+.tc-n{font-size:11.5px;font-weight:700;color:var(--t1)}
+.tc-arr{margin-left:auto;font-size:10px;color:var(--t3);transition:transform .2s}
+.tcard.open .tc-arr{transform:rotate(90deg)}
+.tc-b{display:none;margin-top:10px}
+.tcard.open .tc-b{display:block}
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
+/* Calc */
+.cdisp{
+  background:var(--bg0);border:1px solid var(--bdr2);border-radius:7px;
+  padding:6px 9px;text-align:right;font-size:16px;font-weight:700;
+  font-family:monospace;margin-bottom:7px;color:var(--t1);min-height:34px;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,0.4);
+}
+.cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.cb{
+  padding:7px 3px;border:1px solid var(--bdr);border-radius:5px;
+  background:var(--bg3);color:var(--t1);font-size:11px;font-weight:700;
+  cursor:pointer;font-family:monospace;
+  border-bottom:2px solid var(--bdr2);
+  transition:transform .1s,background .1s;
+}
+.cb:hover{background:var(--bg4);transform:translateY(-1px)}
+.cb:active{transform:translateY(1px);border-bottom-width:1px}
+.cb.op{color:var(--acc2)}
+.cb.eq{background:var(--acc);color:#fff;border-color:rgba(0,0,0,0.2);box-shadow:0 2px 6px rgba(79,126,248,0.4)}
+.cb.cl{color:#f87171;font-weight:900}
 
-        .feature-card h3 {
-            color: #4299e1;
-            margin-bottom: 1rem;
-        }
+/* Timer */
+.tdisp{font-size:24px;font-weight:900;font-family:monospace;color:var(--t1);text-align:center;margin-bottom:8px;letter-spacing:2px}
+.tinps{display:flex;align-items:center;justify-content:center;gap:3px;margin-bottom:8px}
+.tinps input{width:34px;padding:3px;text-align:center;font-size:11px;font-weight:700;border:1px solid var(--bdr2);border-radius:5px;background:var(--bg3);color:var(--t1);outline:none;font-family:monospace}
+.tinps input:focus{border-color:var(--acc-bdr)}
+.tinps span{font-size:12px;color:var(--t3);font-weight:800}
+.tbtns{display:flex;gap:4px;justify-content:center}
+.tbn{padding:5px 12px;border:1px solid var(--bdr2);border-radius:6px;font-size:10px;font-weight:800;cursor:pointer;background:var(--bg3);color:var(--t2);border-bottom:2px solid var(--bdr2);transition:color .1s,transform .1s}
+.tbn:hover{color:var(--t1);transform:translateY(-1px)}
+.tbn.go{background:rgba(45,212,191,0.15);color:var(--teal);border-color:var(--teal-bdr)}
+.tbn.go:hover{background:rgba(45,212,191,0.25)}
 
-        /* Chat Page */
-        #chat-page {
-            transform: translateX(100%);
-            z-index: 20;
-            background-color: white;
-        }
+.sbar-qp{padding:10px 12px;flex:1;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--bg4) transparent}
+.qp-btn{
+  display:block;width:100%;text-align:left;
+  padding:7px 10px;background:var(--bg2);border:1px solid var(--bdr);
+  border-radius:7px;font-size:11px;font-weight:600;color:var(--t2);cursor:pointer;
+  margin-bottom:5px;border-bottom:2px solid var(--bdr2);
+  transition:transform .1s,color .1s,border-color .1s,background .1s;
+}
+.qp-btn:hover{transform:translateX(3px);color:var(--acc2);background:var(--acc-bg);border-color:var(--acc-bdr)}
 
-        .chat-container {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
+/* Main */
+.c-main{flex:1;display:flex;flex-direction:column;min-width:0}
+.c-top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 20px;background:var(--bg1);border-bottom:1px solid var(--bdr);
+  flex-shrink:0;
+}
+.ct-info{display:flex;align-items:center;gap:10px}
+.ct-live{display:flex;align-items:center;gap:5px}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green),0 0 12px rgba(74,222,128,.3)}
+.live-txt{font-size:10px;font-weight:700;color:var(--green);letter-spacing:.4px;text-transform:uppercase}
+.ct-title{font-size:14px;font-weight:800;color:var(--t1)}
+.ct-sub{font-size:10px;color:var(--t3)}
+.model-badge{padding:4px 10px;background:var(--acc-bg);border:1px solid var(--acc-bdr);border-radius:10px;font-size:10px;font-weight:700;color:var(--acc2)}
 
-        .chat-header {
-            background-color: #4299e1;
-            color: #fff;
-            padding: 18px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.msgs{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:13px;background:var(--bg0);scrollbar-width:thin;scrollbar-color:var(--bg3) transparent}
+.msg{display:flex;gap:9px;align-items:flex-start}
+.msg.u{flex-direction:row-reverse}
+.av{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;border:1px solid var(--bdr);background:var(--bg2)}
+.av.bot{background:var(--acc-bg);border-color:var(--acc-bdr)}
+.bub{padding:10px 14px;border-radius:12px;max-width:76%;font-size:13px;line-height:1.7}
+.msg.u .bub{background:var(--acc);color:#fff;border-bottom-right-radius:3px;box-shadow:0 2px 8px rgba(79,126,248,0.35)}
+.msg.b .bub{background:var(--bg2);border:1px solid var(--bdr);border-bottom-left-radius:3px;color:var(--t1);box-shadow:var(--sh1)}
+.bub h3{font-size:12px;font-weight:800;margin:10px 0 4px;color:var(--t1)}
+.bub h3:first-child{margin-top:0}
+.bub ul{padding-left:16px;margin:4px 0}
+.bub li{margin:2px 0;color:var(--t2)}
+.bub strong{font-weight:800;color:var(--t1)}
+.bub code{font-family:monospace;background:var(--bg3);border:1px solid var(--bdr2);padding:1px 5px;border-radius:4px;font-size:11px;color:var(--acc2)}
+.bub pre{background:var(--bg0);border:1px solid var(--bdr2);border-radius:8px;padding:10px 12px;overflow-x:auto;margin:7px 0}
+.bub pre code{background:none;border:none;padding:0;font-size:11.5px;line-height:1.6;color:var(--t1)}
+.bub .step{display:flex;gap:8px;margin:5px 0;align-items:flex-start}
+.bub .snum{width:20px;height:20px;border-radius:50%;background:var(--acc-bg);border:1px solid var(--acc-bdr);color:var(--acc2);font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.bub .tip{background:var(--teal-bg);border-left:2px solid var(--teal);border-radius:0 7px 7px 0;padding:7px 11px;margin:7px 0;font-size:12px;color:var(--teal)}
+.bub .form{font-family:monospace;font-size:12px;background:var(--purp-bg);border:1px solid var(--purp-bdr);color:var(--purp);padding:6px 10px;border-radius:7px;margin:5px 0;display:block}
+.typing{display:flex;gap:4px;align-items:center;padding:2px 0}
+.typing span{width:6px;height:6px;border-radius:50%;background:var(--t3);animation:pu 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes pu{0%,80%,100%{opacity:.3;transform:scale(.85)}40%{opacity:1;transform:scale(1)}}
 
-        .chat-header h1 {
-            margin: 0;
-            font-size: 1.6rem;
-            margin-left: 12px;
-        }
+.inp-bar{
+  padding:12px 18px;background:var(--bg1);
+  border-top:1px solid var(--bdr);
+  display:flex;gap:9px;align-items:flex-end;flex-shrink:0;
+}
+#uinput{
+  flex:1;padding:10px 15px;border:1px solid var(--bdr2);border-radius:10px;
+  font-size:13px;background:var(--bg2);color:var(--t1);outline:none;
+  resize:none;line-height:1.5;max-height:90px;overflow-y:auto;font-family:inherit;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,0.3);transition:border-color .2s;
+}
+#uinput:focus{border-color:var(--acc-bdr);box-shadow:inset 0 2px 4px rgba(0,0,0,0.3),0 0 0 3px rgba(79,126,248,0.08)}
+#uinput::placeholder{color:var(--t3)}
+.sbtn{
+  width:40px;height:40px;border-radius:10px;border:none;
+  background:var(--acc);color:#fff;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  box-shadow:0 3px 12px rgba(79,126,248,0.45);
+  border-bottom:2px solid rgba(0,0,0,0.3);
+  transition:transform .15s,box-shadow .15s;
+}
+.sbtn:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(79,126,248,0.55)}
+.sbtn:active{transform:translateY(0);box-shadow:none}
+.sbtn:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.sbtn svg{width:16px;height:16px}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bg4);border-radius:3px}
+</style>
 
-        .chat-header i {
-            font-size: 1.4rem;
-        }
+<div id="root">
 
-        .back-button {
-            position: absolute;
-            left: 20px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-        }
+<!-- ===== INTRO ===== -->
+<div id="intro">
+  <nav class="i-nav">
+    <div class="i-brand">
+      <div class="i-bicon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+      </div>
+      <div>
+        <div class="i-bname">EduPrep</div>
+        <div class="i-bsub">Academic AI</div>
+      </div>
+    </div>
+    <div class="nav-pills">
+      <div class="nav-pill act">Home</div>
+      <div class="nav-pill">Subjects</div>
+      <div class="nav-pill">Tools</div>
+    </div>
+  </nav>
 
-        .chat-messages {
-            flex-grow: 1;
-            padding: 25px;
-            overflow-y: auto;
-            background-color: #f7fafc;
-        }
-
-        .message {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 18px;
-        }
-
-        .message-content {
-            padding: 12px 18px;
-            border-radius: 18px;
-            max-width: 80%;
-            font-size: 1rem;
-            line-height: 1.5;
-        }
-
-        .user-message {
-            flex-direction: row-reverse;
-        }
-
-        .user-message .message-content {
-            background-color: #4299e1;
-            color: white;
-            margin-right: 15px;
-        }
-
-        .bot-message .message-content {
-            background-color: #edf2f7;
-            margin-left: 15px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .profile-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
-        .user-icon {
-            background-color: #2b6cb0;
-            color: white;
-        }
-
-        .bot-icon {
-            background-color: #4299e1;
-            color: white;
-        }
-
-        .chat-input-container {
-            display: flex;
-            padding: 18px;
-            background-color: #ffffff;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        #user-input {
-            flex-grow: 1;
-            padding: 14px 18px;
-            border: 1px solid #cbd5e0;
-            border-radius: 24px;
-            font-size: 1rem;
-            background-color: #f7fafc;
-            color: #2d3748;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        #user-input:focus {
-            border-color: #4299e1;
-        }
-
-        #send-button {
-            padding: 14px 24px;
-            background-color: #4299e1;
-            color: #fff;
-            border: none;
-            border-radius: 24px;
-            margin-left: 12px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.2s;
-        }
-
-        #send-button:hover {
-            background-color: #3182ce;
-        }
-
-        #send-button:disabled {
-            background-color: #a0aec0;
-            cursor: not-allowed;
-        }
-
-        .disclaimer {
-            font-size: 0.8rem;
-            color: #718096;
-            text-align: center;
-            padding: 10px 15px;
-            background-color: #ebf8ff;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .tools-container {
-            display: flex;
-            justify-content: center;
-            padding: 10px;
-            background-color: #f7fafc;
-            border-bottom: 1px solid #e2e8f0;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .tool-button {
-            padding: 8px 16px;
-            background-color: #4299e1;
-            color: white;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            transition: all 0.2s;
-        }
-
-        .tool-button i {
-            margin-right: 6px;
-        }
-
-        .tool-button:hover {
-            background-color: #3182ce;
-        }
-
-        .tool-button.active {
-            background-color: #2b6cb0;
-            transform: scale(1.05);
-        }
-
-        .tool-panel {
-            display: none;
-            padding: 15px;
-            background-color: #ebf8ff;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .calculator {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-
-        .calculator-display {
-            grid-column: span 4;
-            padding: 10px;
-            text-align: right;
-            background-color: white;
-            border: 1px solid #cbd5e0;
-            border-radius: 4px;
-            font-size: 1.2rem;
-            margin-bottom: 8px;
-        }
-
-        .calculator button {
-            padding: 10px;
-            border: none;
-            border-radius: 4px;
-            background-color: #4299e1;
-            color: white;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .calculator button:hover {
-            background-color: #3182ce;
-        }
-
-        .calculator button.span-2 {
-            grid-column: span 2;
-        }
-
-        .timer-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-
-        .timer-display {
-            font-size: 2rem;
-            font-family: monospace;
-            margin-bottom: 10px;
-        }
-
-        .timer-controls {
-            display: flex;
-            gap: 8px;
-        }
-
-        .timer-controls button {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            background-color: #4299e1;
-            color: white;
-            cursor: pointer;
-        }
-
-        .timer-controls button:hover {
-            background-color: #3182ce;
-        }
-
-        .timer-input {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .timer-input input {
-            width: 50px;
-            padding: 5px;
-            text-align: center;
-            border: 1px solid #cbd5e0;
-            border-radius: 4px;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-            }
-            
-            .message-content {
-                max-width: 75%;
-            }
-
-            .tool-button {
-                padding: 8px 12px;
-                font-size: 0.8rem;
-            }
-        }
-
-        /* Scrollbar Styles */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #edf2f7;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e0;
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a0aec0;
-        }
-    </style>
-</head>
-<body>
-    <!-- Front Page -->
-    <div id="front-page" class="full-page">
-        <div class="hero-content">
-            <h1>Enhance Your Learning Experience</h1>
-            <p>EduPrep Assistant combines AI-powered academic support with practical study tools to help you succeed in your educational journey.</p>
-            
-            <div class="creators-info">
-                <strong>Developed by:</strong>
-                <span>ADITYA PRAKASH | Reg. No. 12404666</span><br>
-                <span></span>
-            </div>
-
-            <button id="start-chat" class="btn">
-                <i class="fas fa-comments"></i> Start Chat
-            </button>
-        </div>
-
-        <div class="features">
-            <div class="feature-card">
-                <h3><i class="fas fa-brain"></i> Intelligent Tutoring</h3>
-                <p>Get personalized explanations and step-by-step guidance for any academic subject or concept.</p>
-            </div>
-            <div class="feature-card">
-                <h3><i class="fas fa-tools"></i> Study Tools</h3>
-                <p>Access built-in calculator and study timer to optimize your learning sessions and productivity.</p>
-            </div>
-            <div class="feature-card">
-                <h3><i class="fas fa-book"></i> Comprehensive Support</h3>
-                <p>From exam preparation to homework help, we cover all aspects of academic learning.</p>
-            </div>
-        </div>
+  <div class="i-hero">
+    <div class="i-left">
+      <div class="hero-eyebrow">
+        <span class="dot-live"></span>
+        AI-Powered Learning
+      </div>
+      <h1 class="hero-h1">Study smarter,<br>not <em>harder.</em></h1>
+      <p class="hero-p">EduPrep is your intelligent academic companion — clear step-by-step explanations, exam strategies, and subject help across every discipline. Built for focused, effective learning.</p>
+      <div class="cta-row">
+        <button class="btn-p" onclick="goChat()">Start Learning →</button>
+        <button class="btn-g" onclick="goChat()">Try a question</button>
+      </div>
+      <div class="creator">Developed by <span>ADITYA PRAKASH</span> · Reg. 12404666</div>
     </div>
 
-    <!-- Chat Page -->
-    <div id="chat-page" class="full-page">
-        <div class="chat-container">
-            <div class="chat-header">
-                <button class="back-button" id="back-button">
-                    <i class="fas fa-arrow-left"></i> Back
-                </button>
-                <i class="fas fa-graduation-cap"></i>
-                <h1>EduPrep Assistant</h1>
-            </div>
-            <div class="disclaimer">
-                Focused on academic learning and exam preparation only
-            </div>
-            <div class="tools-container">
-                <button class="tool-button" id="calculator-tool">
-                    <i class="fas fa-calculator"></i> Calculator
-                </button>
-                <button class="tool-button" id="timer-tool">
-                    <i class="fas fa-stopwatch"></i> Study Timer
-                </button>
-            </div>
-            <div class="tool-panel" id="calculator-panel">
-                <div class="calculator">
-                    <div class="calculator-display" id="calc-display">0</div>
-                    <button onclick="clearCalculator()">C</button>
-                    <button onclick="appendToCalc('/')">/</button>
-                    <button onclick="appendToCalc('*')">×</button>
-                    <button onclick="appendToCalc('-')">-</button>
-                    <button onclick="appendToCalc('7')">7</button>
-                    <button onclick="appendToCalc('8')">8</button>
-                    <button onclick="appendToCalc('9')">9</button>
-                    <button onclick="appendToCalc('+')" style="grid-row: span 2;">+</button>
-                    <button onclick="appendToCalc('4')">4</button>
-                    <button onclick="appendToCalc('5')">5</button>
-                    <button onclick="appendToCalc('6')">6</button>
-                    <button onclick="appendToCalc('1')">1</button>
-                    <button onclick="appendToCalc('2')">2</button>
-                    <button onclick="appendToCalc('3')">3</button>
-                    <button onclick="calculate()" class="span-2">=</button>
-                    <button onclick="appendToCalc('0')">0</button>
-                    <button onclick="appendToCalc('.')">.</button>
-                </div>
-            </div>
-            <div class="tool-panel" id="timer-panel">
-                <div class="timer-container">
-                    <div class="timer-display" id="timer-display">00:00:00</div>
-                    <div class="timer-input">
-                        <input type="number" id="hours" min="0" max="23" value="0" placeholder="H">
-                        <span>:</span>
-                        <input type="number" id="minutes" min="0" max="59" value="25" placeholder="M">
-                        <span>:</span>
-                        <input type="number" id="seconds" min="0" max="59" value="0" placeholder="S">
-                    </div>
-                    <div class="timer-controls">
-                        <button id="start-timer"><i class="fas fa-play"></i> Start</button>
-                        <button id="pause-timer"><i class="fas fa-pause"></i> Pause</button>
-                        <button id="reset-timer"><i class="fas fa-redo"></i> Reset</button>
-                    </div>
-                </div>
-            </div>
-            <div class="chat-messages" id="chat-messages">
-                <div class="message bot-message">
-                    <div class="profile-icon bot-icon">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="message-content">
-                        Hello! I'm your EduPrep Assistant. I can help with:<br><br>
-                        • Study techniques<br>
-                        • Exam preparation<br>
-                        • Subject explanations<br>
-                        • Practice questions<br>
-                        • Academic guidance<br><br>
-                        How can I assist with your learning today?
-                        <strong>Welcome to EduPrep Assistant!</strong><br><br>
-                        I can help with academic learning and provide useful study tools:<br><br>
-                        
-                        <i class="fas fa-calculator"></i> <strong>Calculator</strong>:<br>
-                        - Solve math problems during study sessions<br>
-                        - Handy for quick calculations<br><br>
-                        
-                        <i class="fas fa-stopwatch"></i> <strong>Study Timer</strong>:<br>
-                        - Pomodoro-style timer for focused study<br>
-                        - Track your study sessions<br><br>
-                        
-                        Use the tools above or ask any academic question!
-                    </div>
-                </div>
-            </div>
-            <div class="chat-input-container">
-                <input type="text" id="user-input" placeholder="Ask about study techniques, exam prep, or any academic topic...">
-                <button id="send-button">Send</button>
-            </div>
+    <div class="i-right">
+      <div class="box3d blue">
+        <span class="b3-tag blue">Core</span>
+        <div class="b3-row">
+          <div class="b3-ico blue">🧠</div>
+          <div>
+            <div class="b3-title">Intelligent Tutoring</div>
+            <div class="b3-desc">Step-by-step explanations for any academic concept, problem, or topic across all disciplines.</div>
+          </div>
         </div>
+        <div class="chips">
+          <span class="ch blue">Physics</span>
+          <span class="ch blue">Mathematics</span>
+          <span class="ch blue">Chemistry</span>
+          <span class="ch blue">Biology</span>
+        </div>
+      </div>
+
+      <div class="box3d teal">
+        <span class="b3-tag teal">Tools</span>
+        <div class="b3-row">
+          <div class="b3-ico teal">🔧</div>
+          <div>
+            <div class="b3-title">Built-in Study Tools</div>
+            <div class="b3-desc">Scientific calculator and Pomodoro timer built right in — everything you need in one place.</div>
+          </div>
+        </div>
+        <div class="chips">
+          <span class="ch teal">Calculator</span>
+          <span class="ch teal">Study Timer</span>
+          <span class="ch teal">Quick Prompts</span>
+        </div>
+      </div>
+
+      <div class="box3d purp">
+        <span class="b3-tag purp">Prep</span>
+        <div class="b3-row">
+          <div class="b3-ico purp">📚</div>
+          <div>
+            <div class="b3-title">Exam Preparation</div>
+            <div class="b3-desc">Targeted exam strategies, practice problem sets, and memory techniques that actually work.</div>
+          </div>
+        </div>
+        <div class="chips">
+          <span class="ch purp">Mnemonics</span>
+          <span class="ch purp">Practice Sets</span>
+          <span class="ch purp">Strategies</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="i-foot">
+    <div class="stat"><div class="stat-n">50+</div><div class="stat-l">Subjects</div></div>
+    <div class="sdiv" style="margin:0 4px"></div>
+    <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">Available</div></div>
+    <div class="sdiv" style="margin:0 4px"></div>
+    <div class="stat"><div class="stat-n">AI</div><div class="stat-l">Powered</div></div>
+    <div class="sdiv" style="margin:0 4px"></div>
+    <div class="stat"><div class="stat-n">Free</div><div class="stat-l">To Use</div></div>
+    <div class="i-foot-cta">
+      <button class="btn-p" onclick="goChat()" style="padding:10px 22px;font-size:12.5px">Open Assistant →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CHAT ===== -->
+<div id="chat">
+  <div class="c-layout">
+
+    <div class="sbar">
+      <div class="sbar-head">
+        <div class="sbar-logo">
+          <div class="s-ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+          </div>
+          <span class="s-name">EduPrep</span>
+        </div>
+        <button class="back-btn" onclick="goIntro()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          Back to Home
+        </button>
+      </div>
+
+      <div class="sbar-tools">
+        <div class="s-sec">Study Tools</div>
+
+        <div class="tcard" id="cardCalc" onclick="toggleTool('Calc')">
+          <div class="tc-h">
+            <div class="tc-i">🔢</div>
+            <span class="tc-n">Calculator</span>
+            <span class="tc-arr">▶</span>
+          </div>
+          <div class="tc-b">
+            <div class="cdisp" id="cd">0</div>
+            <div class="cgrid">
+              <button class="cb cl" onclick="cc(event)">C</button>
+              <button class="cb op" onclick="ci(event,'(')">(</button>
+              <button class="cb op" onclick="ci(event,')')">)</button>
+              <button class="cb op" onclick="ci(event,'/')">÷</button>
+              <button class="cb" onclick="ci(event,'7')">7</button>
+              <button class="cb" onclick="ci(event,'8')">8</button>
+              <button class="cb" onclick="ci(event,'9')">9</button>
+              <button class="cb op" onclick="ci(event,'*')">×</button>
+              <button class="cb" onclick="ci(event,'4')">4</button>
+              <button class="cb" onclick="ci(event,'5')">5</button>
+              <button class="cb" onclick="ci(event,'6')">6</button>
+              <button class="cb op" onclick="ci(event,'-')">−</button>
+              <button class="cb" onclick="ci(event,'1')">1</button>
+              <button class="cb" onclick="ci(event,'2')">2</button>
+              <button class="cb" onclick="ci(event,'3')">3</button>
+              <button class="cb op" onclick="ci(event,'+')">+</button>
+              <button class="cb" onclick="ci(event,'0')" style="grid-column:span 2">0</button>
+              <button class="cb" onclick="ci(event,'.')">.</button>
+              <button class="cb eq" onclick="ce(event)">=</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tcard" id="cardTimer" onclick="toggleTool('Timer')">
+          <div class="tc-h">
+            <div class="tc-i">⏱</div>
+            <span class="tc-n">Study Timer</span>
+            <span class="tc-arr">▶</span>
+          </div>
+          <div class="tc-b">
+            <div class="tdisp" id="tdisp">25:00</div>
+            <div class="tinps">
+              <input type="number" id="th" value="0" min="0" max="23" onclick="e=>e.stopPropagation()" onchange="treset()">
+              <span>h</span>
+              <input type="number" id="tm" value="25" min="0" max="59" onclick="e=>e.stopPropagation()" onchange="treset()">
+              <span>m</span>
+              <input type="number" id="ts" value="0" min="0" max="59" onclick="e=>e.stopPropagation()" onchange="treset()">
+              <span>s</span>
+            </div>
+            <div class="tbtns">
+              <button class="tbn go" onclick="tstart(event)">▶ Start</button>
+              <button class="tbn" onclick="tpause(event)">⏸</button>
+              <button class="tbn" onclick="treset(true,event)">↺</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sbar-qp">
+        <div class="s-sec" style="margin-bottom:8px">Quick Prompts</div>
+        <button class="qp-btn" onclick="qs('Explain Newton\'s laws of motion with real-world examples')">Newton's laws</button>
+        <button class="qp-btn" onclick="qs('Best memory techniques for exam preparation')">Memory techniques</button>
+        <button class="qp-btn" onclick="qs('Differentiate f(x) = 3x² + 5x − 2 step by step')">Calculus problem</button>
+        <button class="qp-btn" onclick="qs('Explain the Pomodoro technique for studying')">Pomodoro method</button>
+        <button class="qp-btn" onclick="qs('What is photosynthesis? Explain step by step')">Photosynthesis</button>
+        <button class="qp-btn" onclick="qs('How to effectively prepare for a math exam?')">Exam prep tips</button>
+        <button class="qp-btn" onclick="qs('Explain recursion with a simple example')">Recursion</button>
+        <button class="qp-btn" onclick="qs('What is the law of conservation of energy?')">Conservation of energy</button>
+      </div>
     </div>
 
-    <script>
-        // Page Navigation
-        const frontPage = document.getElementById('front-page');
-        const chatPage = document.getElementById('chat-page');
-        const startChatBtn = document.getElementById('start-chat');
-        const backButton = document.getElementById('back-button');
+    <div class="c-main">
+      <div class="c-top">
+        <div class="ct-info">
+          <div class="ct-live">
+            <div class="live-dot"></div>
+            <span class="live-txt">Live</span>
+          </div>
+          <div>
+            <div class="ct-title">EduPrep Assistant</div>
+            <div class="ct-sub">Academic AI · Always available</div>
+          </div>
+        </div>
+        <div class="model-badge">Claude AI</div>
+      </div>
 
-        startChatBtn.addEventListener('click', () => {
-            frontPage.style.transform = 'translateX(-100%)';
-            chatPage.style.transform = 'translateX(0)';
-        });
+      <div class="msgs" id="msgs">
+        <div class="msg b">
+          <div class="av bot">🎓</div>
+          <div class="bub">
+            <strong>Welcome to EduPrep!</strong><br><br>
+            I give structured, clear answers with step-by-step breakdowns. Ask me anything academic:
+            <ul style="margin-top:6px">
+              <li>Concept explanations with examples</li>
+              <li>Exam strategies and study plans</li>
+              <li>Math and science problem solving</li>
+              <li>Practice questions with walkthroughs</li>
+            </ul>
+            <div class="tip">Pick a quick prompt from the sidebar or type your own question below!</div>
+          </div>
+        </div>
+      </div>
 
-        backButton.addEventListener('click', () => {
-            frontPage.style.transform = 'translateX(0)';
-            chatPage.style.transform = 'translateX(100%)';
-        });
+      <div class="inp-bar">
+        <textarea id="uinput" placeholder="Ask any academic question..." rows="1" oninput="ar(this)" onkeydown="hk(event)"></textarea>
+        <button class="sbtn" id="sb" onclick="send()">
+          <svg viewBox="0 0 24 24" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 
-        // DOM Elements
-        const chatMessages = document.getElementById('chat-messages');
-        const userInput = document.getElementById('user-input');
-        const sendButton = document.getElementById('send-button');
-        const calculatorTool = document.getElementById('calculator-tool');
-        const timerTool = document.getElementById('timer-tool');
-        const calculatorPanel = document.getElementById('calculator-panel');
-        const timerPanel = document.getElementById('timer-panel');
+<script>
+const SYS=`You are EduPrep Assistant, an expert academic tutor. Format responses with these markers:
+[H]heading[/H] for section headings
+[STEP 1]content[/STEP] for numbered steps
+[TIP]content[/TIP] for key tips
+[FORMULA]equation[/FORMULA] for math formulas
+[CODE]code[/CODE] for code blocks
+Use • for bullets, **text** for bold. Be clear, educational, structured. Politely decline non-academic questions.`;
 
-        // Calculator elements
-        const calcDisplay = document.getElementById('calc-display');
-        
-        // Timer elements
-        const timerDisplay = document.getElementById('timer-display');
-        const hoursInput = document.getElementById('hours');
-        const minutesInput = document.getElementById('minutes');
-        const secondsInput = document.getElementById('seconds');
-        const startTimerBtn = document.getElementById('start-timer');
-        const pauseTimerBtn = document.getElementById('pause-timer');
-        const resetTimerBtn = document.getElementById('reset-timer');
+let cv='',aT=null,tSec=1500,tRun=false,tInt=null,busy=false;
 
-        // System prompt
-        const SYSTEM_PROMPT = `You are EduPrep Assistant, an AI specialized in academic learning and exam preparation. 
-        Your role is to:
-        - Explain academic concepts clearly and thoroughly
-        - Provide effective study strategies and techniques
-        - Offer exam preparation tips and test-taking strategies
-        - Solve practice problems with step-by-step explanations
-        - Suggest high-quality learning resources
-        - Give subject-specific guidance across all academic disciplines
-        
-        Maintain a professional, helpful tone while being approachable for students.
-        Politely decline to answer non-educational queries by suggesting you focus on academic topics. 
-        Keep responses clear, accurate, and tailored to educational needs.`;
+// Check available models on load
+console.log('Checking available Gemini models...');
+fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=ENTER-API-KEY')
+  .then(r=>r.json())
+  .then(d=>{if(d.models)console.log('Models:',d.models.map(m=>m.name));else console.log('Response:',d)})
+  .catch(e=>console.log('Models check failed:',e.message));
 
-        // State variables
-        let activeTool = null;
-        let timerInterval = null;
-        let timerSeconds = 0;
-        let isTimerRunning = false;
+function goChat(){document.getElementById('intro').classList.add('out');document.getElementById('chat').classList.add('in')}
+function goIntro(){document.getElementById('intro').classList.remove('out');document.getElementById('chat').classList.remove('in')}
 
-        // Initialize tools
-        function initTools() {
-            // Set up calculator
-            calculatorTool.addEventListener('click', () => toggleTool('calculator'));
-            timerTool.addEventListener('click', () => toggleTool('timer'));
-            
-            // Set up timer controls
-            startTimerBtn.addEventListener('click', startTimer);
-            pauseTimerBtn.addEventListener('click', pauseTimer);
-            resetTimerBtn.addEventListener('click', resetTimer);
-            
-            // Set default timer to 25 minutes (Pomodoro)
-            minutesInput.value = 25;
-            updateTimerDisplay();
-        }
+function toggleTool(t){
+  const same=aT===t;
+  ['Calc','Timer'].forEach(x=>{
+    const c=document.getElementById('card'+x);
+    c.classList.remove('open');
+  });
+  if(!same){aT=t;document.getElementById('card'+t).classList.add('open')}
+  else aT=null;
+}
 
-        // Toggle between tools
-        function toggleTool(tool) {
-            if (activeTool === tool) {
-                // Clicking the same tool closes it
-                activeTool = null;
-                calculatorPanel.style.display = 'none';
-                timerPanel.style.display = 'none';
-                calculatorTool.classList.remove('active');
-                timerTool.classList.remove('active');
-            } else {
-                // Open the selected tool
-                activeTool = tool;
-                calculatorPanel.style.display = tool === 'calculator' ? 'block' : 'none';
-                timerPanel.style.display = tool === 'timer' ? 'block' : 'none';
-                calculatorTool.classList.toggle('active', tool === 'calculator');
-                timerTool.classList.toggle('active', tool === 'timer');
-                
-                // Update timer display when opening
-                if (tool === 'timer') {
-                    updateTimerInputs();
-                }
-            }
-        }
+function ci(e,v){e.stopPropagation();if(cv==='0'&&'0123456789'.includes(v))cv=v;else cv+=v;document.getElementById('cd').textContent=cv||'0'}
+function cc(e){e.stopPropagation();cv='';document.getElementById('cd').textContent='0'}
+function ce(e){e.stopPropagation();try{const r=Function('"use strict";return('+cv+')')();cv=String(parseFloat(r.toFixed(10)));document.getElementById('cd').textContent=cv}catch{document.getElementById('cd').textContent='Error';cv=''}}
 
-        // Calculator functions
-        function appendToCalc(value) {
-            if (calcDisplay.textContent === '0' && value !== '.') {
-                calcDisplay.textContent = value;
-            } else {
-                calcDisplay.textContent += value;
-            }
-        }
+function tshow(){const h=Math.floor(tSec/3600),m=Math.floor((tSec%3600)/60),s=tSec%60;document.getElementById('tdisp').textContent=(h>0?[h,m,s]:[m,s]).map(x=>String(x).padStart(2,'0')).join(':')}
+function tstart(e){if(e)e.stopPropagation();if(tRun)return;tRun=true;tInt=setInterval(()=>{if(tSec<=0){clearInterval(tInt);tRun=false;tshow();return}tSec--;tshow()},1000)}
+function tpause(e){if(e)e.stopPropagation();clearInterval(tInt);tRun=false}
+function treset(full,e){if(e)e.stopPropagation();tpause();tSec=(parseInt(document.getElementById('th').value)||0)*3600+(parseInt(document.getElementById('tm').value)||0)*60+(parseInt(document.getElementById('ts').value)||0);tshow()}
+tshow();
 
-        function clearCalculator() {
-            calcDisplay.textContent = '0';
-        }
+function ar(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,90)+'px'}
+function hk(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}}
 
-        function calculate() {
-            try {
-                // Replace × with * for evaluation
-                const expression = calcDisplay.textContent.replace(/×/g, '*');
-                calcDisplay.textContent = eval(expression);
-            } catch {
-                calcDisplay.textContent = 'Error';
-            }
-        }
-
-        // Timer functions
-        function updateTimerInputs() {
-            const hours = parseInt(hoursInput.value) || 0;
-            const minutes = parseInt(minutesInput.value) || 0;
-            const seconds = parseInt(secondsInput.value) || 0;
-            timerSeconds = hours * 3600 + minutes * 60 + seconds;
-            updateTimerDisplay();
-        }
-
-        function updateTimerDisplay() {
-            const hours = Math.floor(timerSeconds / 3600);
-            const minutes = Math.floor((timerSeconds % 3600) / 60);
-            const seconds = timerSeconds % 60;
-            
-            timerDisplay.textContent = 
-                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        function startTimer() {
-            if (isTimerRunning) return;
-            
-            updateTimerInputs();
-            
-            if (timerSeconds <= 0) return;
-            
-            isTimerRunning = true;
-            timerInterval = setInterval(() => {
-                if (timerSeconds <= 0) {
-                    clearInterval(timerInterval);
-                    isTimerRunning = false;
-                    // Optional: play a sound or show notification when timer completes
-                    return;
-                }
-                timerSeconds--;
-                updateTimerDisplay();
-            }, 1000);
-        }
-
-        function pauseTimer() {
-            clearInterval(timerInterval);
-            isTimerRunning = false;
-        }
-
-        function resetTimer() {
-            pauseTimer();
-            updateTimerInputs();
-        }
-
-        // Chat functions
-        async function generateResponse(prompt) {
-            const fullPrompt = `${SYSTEM_PROMPT}\n\nUser question: ${prompt}\n\nPlease provide a helpful educational response:`;
-            
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=AIzaSyDFOBpMAtCR75qvuu1fMOxG1fqwKTFBs9k`, {
-                    
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: fullPrompt
-                            }]
-                        }]
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to generate response');
-                }
-
-                const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
-            } catch (error) {
-                console.error('API Error:', error);
-                throw error;
-            }
-        }
-
-        function cleanResponse(text) {
-            return text
-                .replace(/#{1,6}\s?/g, '')
-                .replace(/\*\*/g, '')
-                .replace(/\* /g, '• ')
-                .replace(/\n{3,}/g, '\n\n')
-                .trim();
-        }
-
-        function addMessage(message, isUser) {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('message');
-            messageElement.classList.add(isUser ? 'user-message' : 'bot-message');
-
-            const profileIcon = document.createElement('div');
-            profileIcon.classList.add('profile-icon');
-            profileIcon.classList.add(isUser ? 'user-icon' : 'bot-icon');
-            
-            const icon = document.createElement('i');
-            icon.classList.add(isUser ? 'fas' : 'fas', isUser ? 'fa-user' : 'fa-robot');
-            profileIcon.appendChild(icon);
-
-            const messageContent = document.createElement('div');
-            messageContent.classList.add('message-content');
-            messageContent.textContent = cleanResponse(message);
-
-            messageElement.appendChild(profileIcon);
-            messageElement.appendChild(messageContent);
-            chatMessages.appendChild(messageElement);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        async function handleUserInput() {
-            const userMessage = userInput.value.trim();
-            
-            if (userMessage) {
-                addMessage(userMessage, true);
-                userInput.value = '';
-                sendButton.disabled = true;
-                userInput.disabled = true;
-
-                try {
-                    const botMessage = await generateResponse(userMessage);
-                    addMessage(botMessage, false);
-                } catch (error) {
-                    addMessage("I'm having trouble generating a response. Please try again later.", false);
-                    console.error("Error:", error);
-                } finally {
-                    sendButton.disabled = false;
-                    userInput.disabled = false;
-                    userInput.focus();
-                }
-            }
-        }
-
-        // Event listeners
-        sendButton.addEventListener('click', handleUserInput);
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                handleUserInput();
-            }
-        });
-
-        // Timer input validation
-        hoursInput.addEventListener('change', () => {
-            hoursInput.value = Math.min(23, Math.max(0, parseInt(hoursInput.value) || 0));
-            updateTimerInputs();
-        });
-
-        minutesInput.addEventListener('change', () => {
-            minutesInput.value = Math.min(59, Math.max(0, parseInt(minutesInput.value) || 0));
-            updateTimerInputs();
-        });
-
-        secondsInput.addEventListener('change', () => {
-            secondsInput.value = Math.min(59, Math.max(0, parseInt(secondsInput.value) || 0));
-            updateTimerInputs();
-        });
-
-        // Initialize the app
-        initTools();
-    </script>
-</body>
-</html>
+function parse(t){
+  return t
+    .replace(/\[H\](.*?)\[\/H\]/g,'<h3>$1</h3>')
+    .replace(/\[STEP (\d+)\]([\s\S]*?)\[\/STEP\]/g,(_,n,c)=>`<div class="step"><div class="snum">${n}</div><div>${c.trim()}</div></div>`)
+    .replace(/\[TIP\]([\s\S]*?)\[\/TIP\]/g,'<div class="tip">💡 $1</div>')
+    .replace(/\[FORMULA\](.*?)\[\/FORMULA\]/g,'<code class="form">$1</code>')
+    .replace(/\[CODE\]([\s\S]*?)\[\/CODE\]/g,'<pre><code>$1</code></pre>')
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/^• (.+)$/gm,'<li>$1</li>')
+    .replace(/(<li>[\s\S]*?<\/li>)+/g,s=>'<ul>'+s+'</ul>')
+    .replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+}
+function addMsg(txt,u){
+  const msgs=document.getElementById('msgs');
+  const d=document.createElement('div');d.className='msg '+(u?'u':'b');
+  const av=document.createElement('div');av.className='av'+(u?'':' bot');av.textContent=u?'👤':'🎓';
+  const b=document.createElement('div');b.className='bub';
+  if(u)b.textContent=txt;else b.innerHTML=parse(txt);
+  d.appendChild(av);d.appendChild(b);msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+function addTyping(){
+  const msgs=document.getElementById('msgs');
+  const d=document.createElement('div');d.className='msg b';d.id='tr';
+  const av=document.createElement('div');av.className='av bot';av.textContent='🎓';
+  const b=document.createElement('div');b.className='bub';
+  b.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
+  d.appendChild(av);d.appendChild(b);msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+function rmTyping(){const t=document.getElementById('tr');if(t)t.remove()}
+async function send(){
+  if(busy)return;
+  const inp=document.getElementById('uinput');
+  const txt=inp.value.trim();if(!txt)return;
+  inp.value='';inp.style.height='auto';
+  addMsg(txt,true);
+  document.getElementById('sb').disabled=true;busy=true;addTyping();
+  try{
+    const r = await fetch(
+'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=ENTER-API-KEY',
+{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+contents:[
+{
+role:'user',
+parts:[{text:SYS+'\n\nUser question: '+txt}]
+}
+],
+generationConfig:{
+maxOutputTokens:1000
+}
+})
+});
+    const data=await r.json();
+    console.log('API Response:',data);
+    if(data.error){rmTyping();addMsg("⚠️ API Error:\n\n"+JSON.stringify(data.error, null, 2),false);}
+    else if(data.candidates&&data.candidates[0]&&data.candidates[0].content&&data.candidates[0].content.parts&&data.candidates[0].content.parts[0]&&data.candidates[0].content.parts[0].text){
+      const reply=data.candidates[0].content.parts[0].text;rmTyping();addMsg(reply,false);
+    }else{rmTyping();addMsg("⚠️ Unexpected API response format",false);}
+  }catch(e){console.error('Error:',e);rmTyping();addMsg("❌ Connection Error:\n\n"+e.message,false)}
+  busy=false;document.getElementById('sb').disabled=false;inp.focus();
+}
+function qs(q){document.getElementById('uinput').value=q;send()}
+</script>
