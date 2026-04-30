@@ -1,0 +1,18 @@
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.card {
+  background: rgba(0,0,0,0.4); border-radius: 8px; border: 1px solid var(--border);
+  padding: 12px; text-align: center; transition: border-color 0.3s;
+}
+.name { font-size: 11px; font-weight: 600; margin-bottom: 10px; color: var(--text); }
+.lights { display: flex; justify-content: center; gap: 7px; margin-bottom: 8px; }
+.light {
+  width: 14px; height: 14px; border-radius: 50%; opacity: 0.18; transition: all 0.5s;
+}
+.on { opacity: 1; }
+.red { background: var(--cred); box-shadow: none; }
+.yel { background: var(--cyellow); }
+.grn { background: var(--cgreen); }
+.on.red  { box-shadow: 0 0 12px var(--cred); }
+.on.yel  { box-shadow: 0 0 12px var(--cyellow); animation: blink 0.8s ease-in-out infinite; }
+.on.grn  { box-shadow: 0 0 12px var(--cgreen); }
+.status { font-size: 9px; letter-spacing: 1.5px; font-weight: 700; }

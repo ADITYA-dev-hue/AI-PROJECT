@@ -1,0 +1,11 @@
+.metrics { display: flex; gap: 8px; margin-bottom: 10px; }
+.metric {
+  flex: 1; background: rgba(0,0,0,0.4); border-radius: 6px;
+  padding: 10px 8px; text-align: center;
+}
+.val { font-size: 22px; font-weight: 700; font-family: var(--mono); line-height: 1; }
+.lbl { font-size: 9px; color: var(--text2); letter-spacing: 1px; margin-top: 3px; }
+.qualRow { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.qualLbl { font-size: 9px; color: var(--text2); letter-spacing: 1px; }
+.barWrap { height: 7px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
+.bar { height: 100%; border-radius: 4px; transition: width 0.6s, background 0.6s; }

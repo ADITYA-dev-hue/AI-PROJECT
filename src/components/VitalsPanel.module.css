@@ -1,0 +1,13 @@
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.card {
+  background: rgba(0,0,0,0.4); border-radius: 10px; border: 1px solid var(--border);
+  padding: 12px; position: relative; overflow: hidden; transition: border-color 0.3s;
+}
+.card:hover { border-color: var(--border2); }
+.cardTop { position: absolute; top: 0; left: 0; right: 0; height: 2px; border-top: 2px solid; transition: border-color 0.5s; }
+.row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.label { font-size: 9px; color: var(--text2); letter-spacing: 1px; margin-bottom: 4px; }
+.value { font-size: 26px; font-weight: 700; font-family: var(--mono); line-height: 1; }
+.unit { font-size: 11px; color: var(--text2); font-weight: 400; margin-left: 2px; }
+.status { font-size: 9px; font-weight: 600; letter-spacing: 1px; margin-top: 5px; }
+.icon { font-size: 28px; opacity: 0.25; align-self: center; }

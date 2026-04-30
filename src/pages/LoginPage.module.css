@@ -1,0 +1,58 @@
+.root {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at 50% 35%, #0a1e34 0%, var(--bg0) 65%);
+  position: relative; overflow: hidden;
+}
+.bg { position: absolute; inset: 0; pointer-events: none; }
+.gridLine {
+  position: absolute; left: 0; right: 0;
+  top: calc(var(--i) * 5%);
+  height: 1px; background: rgba(0,212,255,0.06);
+}
+.card {
+  position: relative; z-index: 1;
+  background: rgba(13,22,37,0.96);
+  border: 1px solid var(--c1);
+  border-radius: 16px; padding: 48px 40px; width: 420px; text-align: center;
+  box-shadow: 0 0 60px rgba(0,212,255,0.12), 0 0 120px rgba(0,212,255,0.04);
+  animation: fade-in 0.6s ease;
+}
+.logo {
+  font-family: 'Rajdhani', sans-serif; font-size: 24px; font-weight: 700;
+  color: var(--c1); letter-spacing: 4px; margin-bottom: 4px;
+}
+.logoSub {
+  font-size: 9px; color: var(--text2); letter-spacing: 2px; margin-bottom: 24px; line-height: 1.5;
+}
+.scanLine {
+  height: 1px; background: linear-gradient(90deg, transparent, var(--c1), transparent);
+  margin: 0 -40px 24px; animation: scan-h 3s ease-in-out infinite;
+}
+.title { font-size: 26px; font-weight: 600; margin-bottom: 6px; color: #fff; }
+.desc { font-size: 12px; color: var(--text2); margin-bottom: 28px; }
+.input {
+  width: 100%; background: rgba(0,0,0,0.45); border: 1px solid var(--border);
+  border-radius: 8px; padding: 13px 16px; font-size: 14px; color: var(--text);
+  font-family: var(--font); margin-bottom: 12px; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input:focus { border-color: var(--c1); box-shadow: 0 0 0 2px rgba(0,212,255,0.15); }
+.loginBtn {
+  width: 100%; background: linear-gradient(135deg, #004d6e, #002f47);
+  border: 1px solid var(--c1); border-radius: 8px; padding: 14px;
+  font-size: 13px; font-weight: 600; color: var(--c1); letter-spacing: 1.5px;
+  margin-bottom: 10px; transition: all 0.2s; font-family: var(--font);
+}
+.loginBtn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #006b96, #004d6e);
+  box-shadow: 0 0 24px rgba(0,212,255,0.35);
+}
+.loginBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+.demoBtn {
+  width: 100%; background: rgba(0,255,136,0.07);
+  border: 1px solid var(--c2); border-radius: 8px; padding: 12px;
+  font-size: 12px; font-weight: 500; color: var(--c2); letter-spacing: 1px;
+  transition: all 0.2s; font-family: var(--font);
+}
+.demoBtn:hover:not(:disabled) { background: rgba(0,255,136,0.14); }
+.footer { font-size: 10px; color: var(--text3); margin-top: 20px; line-height: 1.6; }

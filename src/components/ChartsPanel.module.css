@@ -1,0 +1,4 @@
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.chartBox { background: rgba(0,0,0,0.4); border-radius: 8px; padding: 10px; }
+.chartTitle { font-size: 9px; color: var(--text2); letter-spacing: 1px; margin-bottom: 6px; }
+.waiting { height: 80px; display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--text3); }

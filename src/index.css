@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg0: #050c14; --bg1: #080f1a; --bg2: #0d1625; --bg3: #111e30;
+  --c1: #00d4ff; --c2: #00ff88; --c3: #ff6b35; --c4: #ffd700;
+  --cred: #ff3b3b; --cyellow: #ffcc00; --cgreen: #00e676;
+  --border: #1a3050; --border2: #243d5c;
+  --text: #c8d8e8; --text2: #8aaabb; --text3: #4a6070;
+  --font: 'Exo 2', sans-serif; --mono: 'Share Tech Mono', monospace;
+  --radius: 10px; --radius-sm: 6px;
+  --panel-bg: rgba(13, 22, 37, 0.85);
+  --glass: rgba(255,255,255,0.03);
+}
+
+[data-theme="light"] {
+  --bg0: #e8edf4; --bg1: #f0f4f9; --bg2: #ffffff; --bg3: #e0e8f0;
+  --border: #c0cfe0; --border2: #a8bdd0;
+  --text: #1a2a3a; --text2: #4a6070; --text3: #8aaabb;
+  --panel-bg: rgba(255,255,255,0.92);
+  --glass: rgba(0,0,0,0.02);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font);
+  background: var(--bg0);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--c1); }
+
+button { cursor: pointer; }
+canvas { display: block; }
+
+/* Pulse animation */
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+}
+@keyframes slide-in {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scan-h {
+  0%, 100% { opacity: 0.3; } 50% { opacity: 0.9; }
+}
+@keyframes emg-glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(255,107,53,0.4); }
+  50% { box-shadow: 0 0 24px rgba(255,107,53,0.9), 0 0 48px rgba(255,107,53,0.3); }
+}
+
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.2s;
+}
+.panel:hover { border-color: var(--border2); }
+
+.panel-title {
+  font-size: 10px; font-weight: 600; color: var(--c1);
+  letter-spacing: 2.5px; text-transform: uppercase;
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+.panel-title::before {
+  content: ''; width: 3px; height: 14px;
+  background: var(--c1); border-radius: 2px; flex-shrink: 0;
+}
+
+.glow-text { text-shadow: 0 0 12px currentColor; }
+.fade-in { animation: fade-in 0.4s ease forwards; }
+.slide-in { animation: slide-in 0.3s ease forwards; }
